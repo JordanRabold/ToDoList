@@ -11,6 +11,22 @@ class ToDoItem{ // creating todo list class
 window.onload = function(){
     let addBtn = $("add");
     addBtn.onclick = addToDoItem;
+
+    // Convert to JSON String
+    let toDoString = JSON.stringify(ToDoItem);
+    console.log(toDoString);
+
+    // Put the JSON string version of ToDoItem in localStorage
+    localStorage.setItem("toDoObject", toDoString);
+
+    // Read out of localStorage then parse into a studentObject
+    let toDoResult = localStorage.getItem("toDoObject");
+    let myToDo:ToDoItem = JSON.parse(toDoResult);
+    console.log("Reading: " + myToDo.title + myToDo.dueDate + myToDo.isComplete);
+
+    // Reading from localStorage
+    let data = localStorage.getItem("ToDoItem");
+    console.log(data);
 }
 /*
 let item = new ToDoItem();
@@ -76,6 +92,9 @@ function displayToDoItem(item:ToDoItem):void{
     itemDate.innerText = item.dueDate.toDateString();
 
     let itemDiv = document.createElement("div");
+
+    itemDiv.onclick = markAsComplete;
+
     itemDiv.classList.add("todo");
     if(item.isComplete){
         itemDiv.classList.add("completed");
@@ -94,7 +113,15 @@ function displayToDoItem(item:ToDoItem):void{
     }
 }
 
-// Task: Allow user to mark a ToDoItem as completed
+function markAsComplete(){
+    
+    let itemDiv = <HTMLElement>this;
+    itemDiv.classList.add("completed");
+
+    let completeItems = $("display-complete");
+    completeItems.appendChild(itemDiv);
+}
+
 // Task: Store ToDoItems in web storage
 
 function $(id:string){
