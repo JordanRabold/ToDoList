@@ -6,6 +6,7 @@
     text-align: center;
     border-radius: .5em;
     margin: 1em;
+    cursor: pointer;
 }
 
 .todo h3{
@@ -19,4 +20,14 @@
 .completed{
     opacity: 50%;
     background-color: green;
+    text-decoration: line-through;
+}
+
+#display-complete{
+    border: .5em solid greenyellow;
+    margin-bottom: .5em;
+}
+
+#display-incomplete{
+    border: .5em solid red;
 }
