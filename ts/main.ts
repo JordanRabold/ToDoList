@@ -60,7 +60,7 @@ function getToDoItem():ToDoItem{
     newItem.dueDate = new Date(dueDateInput.value);
 
     // get isCompleted
-    let isComplete = <HTMLInputElement>$("completed");
+    let isComplete = <HTMLInputElement>$("is-complete");
     newItem.isComplete = isComplete.checked;
 
     return newItem;

@@ -41,7 +41,7 @@ function getToDoItem() {
     newItem.title = titleInput.value;
     var dueDateInput = $("due-date");
     newItem.dueDate = new Date(dueDateInput.value);
-    var isComplete = $("completed");
+    var isComplete = $("is-complete");
     newItem.isComplete = isComplete.checked;
     return newItem;
 }
