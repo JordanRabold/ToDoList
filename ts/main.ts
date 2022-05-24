@@ -11,29 +11,13 @@ class ToDoItem{ // creating todo list class
 window.onload = function(){
     let addBtn = $("add");
     addBtn.onclick = addToDoItem;
-
-    // Convert to JSON String
-    let toDoString = JSON.stringify(ToDoItem);
-    console.log(toDoString);
-
-    // Put the JSON string version of ToDoItem in localStorage
-    localStorage.setItem("toDoObject", toDoString);
-
-    // Read out of localStorage then parse into a studentObject
-    let toDoResult = localStorage.getItem("toDoObject");
-    let myToDo:ToDoItem = JSON.parse(toDoResult);
-    console.log("Reading: " + myToDo.title + myToDo.dueDate + myToDo.isComplete);
-
-    // Reading from localStorage
-    let data = localStorage.getItem("ToDoItem");
-    console.log(data);
+    loadSavedItem();
 }
-/*
-let item = new ToDoItem();
-item.title = "Testing";
-item.dueDate = new Date(2022, 5, 15);
-item.isComplete = false;
-*/
+
+function loadSavedItem(){
+    let item = getToDo(); // read from web storage
+    displayToDoItem(item);
+}
 
 /**
  * check form validation
@@ -55,6 +39,7 @@ function addToDoItem(){
     if(isValid()){
         let toDoItem = getToDoItem();
         displayToDoItem(toDoItem);
+        saveToDo(toDoItem);
     }
 }
 
@@ -89,7 +74,8 @@ function displayToDoItem(item:ToDoItem):void{
     itemText.innerText = item.title;
 
     let itemDate = document.createElement("p");
-    itemDate.innerText = item.dueDate.toDateString();
+    let dueDate = new Date(item.dueDate.toString());
+    itemDate.innerText = dueDate.toDateString();
 
     let itemDiv = document.createElement("div");
 
@@ -122,8 +108,27 @@ function markAsComplete(){
     completeItems.appendChild(itemDiv);
 }
 
-// Task: Store ToDoItems in web storage
-
 function $(id:string){
     return document.getElementById(id);
+}
+
+
+function saveToDo(item:ToDoItem):void{
+    // Convert ToDoItem into JSON string
+    let itemString = JSON.stringify(item);
+
+    // Save string
+    localStorage.setItem("todokey", itemString);
+}
+
+const todokey = "todo";
+
+/**
+ * Get stored ToDoItem or return null
+ * if non is found
+ */
+function getToDo():ToDoItem{
+    let itemString = localStorage.getItem("todokey");
+    let item:ToDoItem = JSON.parse(itemString);
+    return item;
 }
