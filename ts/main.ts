@@ -10,18 +10,19 @@ class ToDoItem{ // creating todo list class
 
 window.onload = function(){
     let addBtn = $("add");
-    addBtn.onclick = addToDoItem;
-    loadSavedItem();
+    addBtn.onclick = main;
+    loadSavedItems();
 }
 
-function loadSavedItem(){
-    let item = getToDo(); // read from web storage
-    displayToDoItem(item);
+function loadSavedItems(){
+    let itemArray = getToDoItems(); // read from web storage
+
+    for(let i = 0; i < itemArray.length; i++){
+        let currItem = itemArray[i];
+        displayToDoItem(currItem);
+    }
 }
 
-/**
- * check form validation
- */
 function isValid():boolean{
     let isDataValid = true;
 
@@ -35,11 +36,11 @@ function isValid():boolean{
     return isDataValid;
 }
 
-function addToDoItem(){
+function main(){
     if(isValid()){
-        let toDoItem = getToDoItem();
-        displayToDoItem(toDoItem);
-        saveToDo(toDoItem);
+        let item = getToDoItem();
+        displayToDoItem(item);
+        saveToDo(item);
     }
 }
 
@@ -59,7 +60,7 @@ function getToDoItem():ToDoItem{
     newItem.dueDate = new Date(dueDateInput.value);
 
     // get isCompleted
-    let isComplete = <HTMLInputElement>$("is-complete");
+    let isComplete = <HTMLInputElement>$("completed");
     newItem.isComplete = isComplete.checked;
 
     return newItem;
@@ -70,15 +71,17 @@ function getToDoItem():ToDoItem{
  * @param item display given ToDo item on webpage
  */
 function displayToDoItem(item:ToDoItem):void{
+    // ex. <h3>Record JS Lecture</h3>
     let itemText = document.createElement("h3");
     itemText.innerText = item.title;
 
+    // ex. <p>June 1st 2020</p>
     let itemDate = document.createElement("p");
     let dueDate = new Date(item.dueDate.toString());
     itemDate.innerText = dueDate.toDateString();
 
+    // ex. <div class="todo completed"></div> or <div class="todo"></div>
     let itemDiv = document.createElement("div");
-
     itemDiv.onclick = markAsComplete;
 
     itemDiv.classList.add("todo");
@@ -114,21 +117,25 @@ function $(id:string){
 
 
 function saveToDo(item:ToDoItem):void{
-    // Convert ToDoItem into JSON string
-    let itemString = JSON.stringify(item);
+    let currItems = getToDoItems();
+    if(currItems == null){ // No items found
+        currItems = new Array();
+    }
+    currItems.push(item); // Add new item to the current ones
 
-    // Save string
-    localStorage.setItem("todokey", itemString);
+    let currItemsString = JSON.stringify(currItems); // Re-save back into list
+    localStorage.setItem(todokey, currItemsString);
 }
 
 const todokey = "todo";
 
 /**
- * Get stored ToDoItem or return null
- * if non is found
+ * Get stored ToDo Items or return null
+ * if non are found
  */
-function getToDo():ToDoItem{
-    let itemString = localStorage.getItem("todokey");
-    let item:ToDoItem = JSON.parse(itemString);
+function getToDoItems():ToDoItem[]{
+    let itemString = localStorage.getItem(todokey);
+    let item:ToDoItem[] = JSON.parse(itemString);
     return item;
 }
+
