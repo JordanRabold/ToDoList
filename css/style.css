@@ -26,8 +26,25 @@
 #display-complete{
     border: .5em solid greenyellow;
     margin-bottom: .5em;
+    width: 50%;
+    box-sizing: border-box;
 }
 
 #display-incomplete{
     border: .5em solid red;
+    width: 50%;
+    box-sizing: border-box;
+    height: 50%;
+}
+
+#display-complete, 
+#display-incomplete{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#all-items{
+    display: flex;
 }
