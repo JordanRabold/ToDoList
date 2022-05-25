@@ -84,11 +84,11 @@ function saveToDo(item) {
     }
     currItems.push(item);
     var currItemsString = JSON.stringify(currItems);
-    localStorage.setItem(todokey, currItemsString);
+    localStorage.setItem(toDoKey, currItemsString);
 }
-var todokey = "todo";
+var toDoKey = "todo";
 function getToDoItems() {
-    var itemString = localStorage.getItem(todokey);
+    var itemString = localStorage.getItem(toDoKey);
     var item = JSON.parse(itemString);
     return item;
 }

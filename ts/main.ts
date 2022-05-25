@@ -124,17 +124,17 @@ function saveToDo(item:ToDoItem):void{
     currItems.push(item); // Add new item to the current ones
 
     let currItemsString = JSON.stringify(currItems); // Re-save back into list
-    localStorage.setItem(todokey, currItemsString);
+    localStorage.setItem(toDoKey, currItemsString);
 }
 
-const todokey = "todo";
+const toDoKey = "todo";
 
 /**
  * Get stored ToDo Items or return null
  * if non are found
  */
 function getToDoItems():ToDoItem[]{
-    let itemString = localStorage.getItem(todokey);
+    let itemString = localStorage.getItem(toDoKey);
     let item:ToDoItem[] = JSON.parse(itemString);
     return item;
 }
